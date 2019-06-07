@@ -1,0 +1,147 @@
+{
+  "name": "angular-calendar",
+  "version": "0.27.9",
+  "description": "A calendar component for angular 6.0+ that can display events on a month, week or day view",
+  "scripts": {
+    "start": "node --max_old_space_size=8192 ./node_modules/.bin/ng serve --open",
+    "build:demos": "ng build --prod",
+    "build:lib": "copyfiles package.json projects/angular-calendar && ng build angular-calendar && npm run build:date-adapters && npm run build:styles && npm run copyfiles",
+    "build:date-adapters": "tsc -p tsconfig-date-adapters.json",
+    "build:styles": "node-sass projects/angular-calendar/src/angular-calendar.scss | postcss --output dist/angular-calendar/css/angular-calendar.css",
+    "build:clean": "rm -rf dist",
+    "copyfiles": "copyfiles CHANGELOG.md README.md LICENSE dist/angular-calendar && cp projects/angular-calendar/util/date-adapter-package.json dist/angular-calendar/date-adapters/date-fns/package.json && cp projects/angular-calendar/util/date-adapter-package.json dist/angular-calendar/date-adapters/moment/package.json && copyfiles -u 3 projects/angular-calendar/src/**/*.scss dist/angular-calendar/scss",
+    "test": "npm run lint && TZ=UTC ng test angular-calendar --watch=false --code-coverage && npm run build:lib && npm run build:clean",
+    "test:watch": "TZ=UTC ng test angular-calendar",
+    "lint": "ng lint && ng lint angular-calendar && stylelint \"{projects,src}/**/*.scss\" --fix",
+    "commit": "git-cz",
+    "codecov": "cat coverage/lcov.info | codecov",
+    "compodoc": "compodoc -p tsconfig-compodoc.json -d dist/demos/docs --disableGraph --disableCoverage --disablePrivate --disableInternal --disableLifeCycleHooks --disableProtected --gaID UA-63367573-2",
+    "prerelease": "npm test",
+    "release:git": "git add package.json package-lock.json && git commit -m 'chore: bump version number' && standard-version --first-release && git push --follow-tags origin master",
+    "release:npm": "npm run build:lib && npm publish dist/angular-calendar",
+    "release": "npm run release:git && npm run release:npm",
+    "postrelease": "npm run gh-pages",
+    "gh-pages": "npm run build:clean && npm run build:demos && npm run compodoc && ngh --dir=dist/demos --no-silent && npm run build:clean"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/prompt"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattlewis92/angular-calendar.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular6",
+    "calendar"
+  ],
+  "author": "Matt Lewis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattlewis92/angular-calendar/issues"
+  },
+  "homepage": "https://github.com/mattlewis92/angular-calendar#readme",
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^0.800.2",
+    "@angular-devkit/build-ng-packagr": "^0.800.2",
+    "@angular/animations": "^8.0.0",
+    "@angular/cdk": "^8.0.0",
+    "@angular/cli": "^8.0.2",
+    "@angular/common": "^8.0.0",
+    "@angular/compiler": "^8.0.0",
+    "@angular/compiler-cli": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/forms": "^8.0.0",
+    "@angular/language-service": "^8.0.0",
+    "@angular/platform-browser": "^8.0.0",
+    "@angular/platform-browser-dynamic": "^8.0.0",
+    "@angular/router": "^8.0.0",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "@commitlint/prompt": "^8.0.0",
+    "@compodoc/compodoc": "^1.1.9",
+    "@ng-bootstrap/ng-bootstrap": "^4.2.1",
+    "@stackblitz/sdk": "^1.3.0",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "@types/moment-timezone": "^0.5.12",
+    "@types/node": "^12.0.7",
+    "@types/sinon": "^7.0.12",
+    "@types/sinon-chai": "^3.2.2",
+    "angular-cli-ghpages": "^0.5.3",
+    "angulartics2": "^7.5.2",
+    "angularx-flatpickr": "^6.1.0",
+    "autoprefixer": "^9.6.0",
+    "bootstrap-css-only": "^4.3.1",
+    "chai": "^4.2.0",
+    "codecov": "^3.5.0",
+    "codelyzer": "^5.1.0",
+    "commitizen": "^3.1.1",
+    "copyfiles": "^2.1.0",
+    "core-js": "^3.1.3",
+    "css-loader": "^2.1.1",
+    "date-fns": "1.29.0",
+    "flatpickr": "^4.6.1",
+    "font-awesome": "^4.7.0",
+    "hammerjs": "^2.0.8",
+    "highlightjs-loader": "^0.2.3",
+    "husky": "^2.4.0",
+    "karma": "^4.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage-istanbul-reporter": "^2.0.5",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "mocha": "^6.1.4",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
+    "ng-packagr": "^5.3.0",
+    "ngx-clipboard": "^12.1.0",
+    "ngx-contextmenu": "^5.2.0",
+    "ngx-scrollbar": "^4.2.0",
+    "node-sass": "^4.12.0",
+    "postcss-cli": "^6.1.2",
+    "postcss-flexibility": "^2.0.0",
+    "prettier": "^1.18.0",
+    "pretty-quick": "^1.11.0",
+    "rrule": "^2.6.0",
+    "rxjs": "^6.5.2",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "standard-version": "^6.0.1",
+    "stylelint": "^10.0.1",
+    "stylelint-config-prettier": "^5.2.0",
+    "stylelint-config-standard": "^18.3.0",
+    "ts-node": "^8.2.0",
+    "tsickle": "^0.35.0",
+    "tslib": "^1.9.0",
+    "tslint": "^5.17.0",
+    "tslint-config-mwl": "^0.6.0",
+    "typescript": "~3.4.5",
+    "zone.js": "~0.9.1"
+  },
+  "peerDependencies": {},
+  "dependencies": {
+    "angular-draggable-droppable": "^4.3.1",
+    "angular-resizable-element": "^3.2.4",
+    "calendar-utils": "^0.3.1",
+    "positioning": "^1.4.0"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e",
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
